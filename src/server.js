@@ -3,9 +3,8 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const albums = require('./api/albums');
 const AlbumsService = require('./service/AlbumsService');
-// const NotesService = require('./services/postgres/NotesService');
-// const NotesValidator = require('./validator/notes');
-// const ClientError = require('./exceptions/ClientError');
+const AlbumValidator = require('./validator/album');
+const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
   const albumService = new AlbumsService();
@@ -25,23 +24,24 @@ const init = async () => {
     plugin: albums,
     options: {
       service: albumService,
+      validator: AlbumValidator
     },
   });
 
-//   server.ext('onPreResponse', (request, h) => {
-//     const { response } = request;
+  server.ext('onPreResponse', (request, h) => {
+    const { response } = request;
 
-//     if (response instanceof ClientError) {
-//       const newResponse = h.response({
-//         status: 'fail',
-//         message: response.message,
-//       });
-//       newResponse.code(response.statusCode);
-//       return newResponse;
-//     }
+    if (response instanceof ClientError) {
+      const newResponse = h.response({
+        status: 'fail',
+        message: response.message,
+      });
+      newResponse.code(response.statusCode);
+      return newResponse;
+    }
 
-//     return h.continue;
-//   });
+    return h.continue;
+  });
 
   await server.start();
   console.log(`Server running at ${server.info.uri}`);
