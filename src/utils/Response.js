@@ -1,7 +1,7 @@
-const { albumdId } = require("./Identifier");
+const { albumdId } = require('./Identifier');
 
 const albumResponse = ({ id, name, year }) => ({
-  albumId: albumdId(id),
+  id: albumdId(id),
   name,
   year,
 });

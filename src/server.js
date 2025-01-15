@@ -17,14 +17,14 @@ const init = async () => {
         origin: ['*'],
       },
     },
-    debug: { request: ['error'] }
+    debug: { request: ['error'] },
   });
 
   await server.register({
     plugin: albums,
     options: {
       service: albumService,
-      validator: AlbumValidator
+      validator: AlbumValidator,
     },
   });
 
