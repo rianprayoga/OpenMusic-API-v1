@@ -1,13 +1,7 @@
-const generateAlbumdId = (id) =>{
-    return 'album-'+id;
-}
+const generateAlbumdId = (id) => `album-${id}`;
 
-const generateSongId = (id) => {
-    return 'song-'+id;
-}
+const generateSongId = (id) => `song-${id}`;
 
-const getId = (id) =>{
-    return id.slice(-16);
-}
+const getId = (id) => id.slice(-16);
 
-module.exports = {songId: generateSongId, albumdId: generateAlbumdId, getId};
+module.exports = { songId: generateSongId, albumdId: generateAlbumdId, getId };
