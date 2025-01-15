@@ -5,9 +5,10 @@ const albums = require('./api/albums');
 const AlbumsService = require('./service/AlbumsService');
 const AlbumValidator = require('./validator/album');
 const ClientError = require('./exceptions/ClientError');
+const db = require('./db');
 
 const init = async () => {
-  const albumService = new AlbumsService();
+  const albumService = new AlbumsService(db);
 
   const server = Hapi.server({
     port: process.env.PORT,

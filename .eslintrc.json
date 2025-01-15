@@ -11,7 +11,7 @@
     },
     "rules": {        
         "no-console": "off",
-        "no-underscore-dangle":  ["error", { "allow": ["_notes","_service","_validator","_pool"] }],
+        "no-underscore-dangle":  ["error", { "allow": ["_db","_service","_validator"] }],
         "camelcase": "off"
     }
 }
