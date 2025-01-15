@@ -1,4 +1,8 @@
-const generateAlbumdId = (id) => `album-${id}`;
+const generateAlbumdId = (id) => {
+  if (id === undefined) return null;
+
+  return `album-${id}`;
+};
 
 const generateSongId = (id) => `song-${id}`;
 

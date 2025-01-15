@@ -6,7 +6,7 @@ const SongBodySchema = Joi.object({
   genre: Joi.string().required().min(3).max(100),
   performer: Joi.string().required().min(3).max(100),
   duration: Joi.number().integer().positive(),
-  albumid: Joi.string(),
+  albumId: Joi.string().min(22).max(22),
 });
 
 module.exports = { SongBodySchema };

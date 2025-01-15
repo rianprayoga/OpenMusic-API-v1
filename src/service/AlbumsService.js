@@ -20,7 +20,7 @@ class AlbumsService {
     const result = await this._db.query(queryValue);
 
     if (!result.rows[0].id) {
-      throw new InvariantError('Failed to add albums.');
+      throw new InvariantError('Failed to add album.');
     }
 
     return albumdId(result.rows[0].id);

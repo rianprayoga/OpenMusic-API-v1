@@ -5,16 +5,20 @@ class SongHandler {
   }
 
   async postSongHandler(request, h) {
-    this._validator.validateAlbumBody(request.payload);
+    this._validator.validateSongBody(request.payload);
 
-    const { name, year } = request.payload;
-    const id = await this._service.addAlbum({ name, year });
+    const {
+      title, year, genre, performer, duration, albumdId,
+    } = request.payload;
+    const id = await this._service.addSong({
+      title, year, genre, performer, duration, albumdId,
+    });
 
     const response = h.response({
       status: 'success',
-      message: 'New album added.',
+      message: 'New song added.',
       data: {
-        albumId: id,
+        songId: id,
       },
     });
     response.code(201);
@@ -22,40 +26,48 @@ class SongHandler {
   }
 
   async getSongsHandler() {
-
+    const songs = await this._service.getSongs();
+    return {
+      status: 'success',
+      songs,
+    };
   }
 
   async getSongHandler(request) {
     const { id } = request.params;
-    const album = await this._service.getAlbumById(id);
+    const song = await this._service.getSong(id);
 
     return {
       status: 'success',
       data: {
-        album,
+        song,
       },
     };
   }
 
   async putSongHandler(request) {
-    this._validator.validateAlbumBody(request.payload);
+    this._validator.validateSongBody(request.payload);
 
-    const { name, year } = request.payload;
+    const {
+      title, year, genre, performer, duration, albumdId,
+    } = request.payload;
     const { id } = request.params;
 
-    await this._service.updateAlbumById(id, { name, year });
+    await this._service.updateSong(id, {
+      title, year, genre, performer, duration, albumdId,
+    });
     return {
       status: 'success',
-      message: `Album wiht id ${id} updated.`,
+      message: `Song wiht id ${id} updated.`,
     };
   }
 
   async deleteSongHandler(request) {
     const { id } = request.params;
-    await this._service.deleteAlbumById(id);
+    await this._service.deleteSong(id);
     return {
       status: 'success',
-      message: `Album wiht id ${id} deleted.`,
+      message: `Song wiht id ${id} deleted.`,
     };
   }
 }
