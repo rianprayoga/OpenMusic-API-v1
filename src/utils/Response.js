@@ -1,13 +1,13 @@
-const { albumdId, songId } = require('./Identifier');
+const { generateAlbumdId, generateSongId } = require('./Identifier');
 
 const albumResponse = ({ id, name, year }) => ({
-  id: albumdId(id),
+  id: generateAlbumdId(id),
   name,
   year,
 });
 
 const songResponse = ({ id, title, performer }) => ({
-  id: songId(id),
+  id: generateSongId(id),
   title,
   performer,
 });
@@ -15,13 +15,13 @@ const songResponse = ({ id, title, performer }) => ({
 const songExtendedResponse = ({
   id, title, year, genre, performer, duration, albumId,
 }) => ({
-  id: songId(id),
+  id: generateSongId(id),
   title,
   year,
   genre,
   performer,
   duration,
-  albumId: albumId(albumId),
+  albumId: generateAlbumdId(albumId),
 });
 
 module.exports = { albumResponse, songResponse, songExtendedResponse };

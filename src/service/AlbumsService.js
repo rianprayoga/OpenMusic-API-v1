@@ -1,7 +1,7 @@
 const { nanoid } = require('nanoid');
 const InvariantError = require('../exceptions/InvariantError');
 const NotFoundError = require('../exceptions/NotFoundError');
-const { albumdId, getId } = require('../utils/Identifier');
+const { generateAlbumdId: albumdId, getId } = require('../utils/Identifier');
 const { albumResponse } = require('../utils/Response');
 
 class AlbumsService {
@@ -63,7 +63,7 @@ class AlbumsService {
     const result = await this._db.query(queryValue);
 
     if (!result.rows.length) {
-      throw new NotFoundError(`Failed to update album.Album with Id ${id} not found.`);
+      throw new NotFoundError(`Failed to update album. Album with Id ${id} not found.`);
     }
   }
 }

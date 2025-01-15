@@ -29,7 +29,9 @@ class SongHandler {
     const songs = await this._service.getSongs();
     return {
       status: 'success',
-      songs,
+      data: {
+        songs,
+      },
     };
   }
 
