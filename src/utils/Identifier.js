@@ -1,11 +1,19 @@
 const generateAlbumdId = (id) => {
-  if (id === undefined) return null;
+  if (id === undefined || id === null) return undefined;
 
   return `album-${id}`;
 };
 
-const generateSongId = (id) => `song-${id}`;
+const generateSongId = (id) => {
+  if (id === undefined || id === null) return undefined;
 
-const getId = (id) => id.slice(-16);
+  return `song-${id}`;
+};
+
+const getId = (id) => {
+  if (id === undefined || id === null) return undefined;
+
+  return id.slice(-16);
+};
 
 module.exports = { generateSongId, generateAlbumdId, getId };

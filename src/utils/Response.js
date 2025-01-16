@@ -1,9 +1,12 @@
 const { generateAlbumdId, generateSongId } = require('./Identifier');
 
-const albumResponse = ({ id, name, year }) => ({
+const albumResponse = ({
+  id, name, year, songs,
+}) => ({
   id: generateAlbumdId(id),
   name,
   year,
+  songs,
 });
 
 const songResponse = ({ id, title, performer }) => ({

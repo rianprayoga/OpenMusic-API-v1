@@ -2,7 +2,7 @@ const { nanoid } = require('nanoid');
 const InvariantError = require('../exceptions/InvariantError');
 const NotFoundError = require('../exceptions/NotFoundError');
 const { generateAlbumdId: albumdId, getId } = require('../utils/Identifier');
-const { albumResponse } = require('../utils/Response');
+const { albumResponse, songResponse } = require('../utils/Response');
 
 class AlbumsService {
   constructor(db) {
@@ -27,18 +27,28 @@ class AlbumsService {
   }
 
   async getAlbumById(id) {
-    const queryValue = {
-      text: 'SELECT id, name, year FROM albums a WHERE a.id = $1',
-      values: [getId(id)],
-    };
-
-    const result = await this._db.query(queryValue);
+    const result = await this._db.query(
+      {
+        text:
+        `SELECT 
+          a.id as aid, a.name, a.year, s.id as sid, s.title, s.performer
+        FROM albums a LEFT JOIN songs s ON a.id = s.albumId WHERE a.id = $1`,
+        values: [getId(id)],
+      },
+    );
 
     if (result.rows.length === 0) {
       throw new NotFoundError(`Album with id ${id} not found.`);
     }
 
-    return result.rows.map(albumResponse)[0];
+    const tmpSongs = result
+      .rows
+      .map(({ sid, title, performer }) => songResponse({ id: sid, title, performer }));
+
+    const { aid, name, year } = result.rows[0];
+    return albumResponse({
+      id: aid, name, year, songs: tmpSongs[0].id === undefined ? [] : tmpSongs,
+    });
   }
 
   async deleteAlbumById(id) {

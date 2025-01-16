@@ -51,7 +51,7 @@ const init = async () => {
       });
       newResponse.code(response.statusCode);
       return newResponse;
-    }else if (response instanceof Error){
+    } if (response instanceof Error) {
       const newResponse = h.response({
         status: 'error',
         message: 'Internal server error',
