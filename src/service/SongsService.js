@@ -30,11 +30,22 @@ class SongsService {
     return songId(result.rows[0].id);
   }
 
-  async getSongs() {
-    const result = await this._db.query({
-      text: 'SELECT id, title, performer FROM songs',
-      values: [],
-    });
+  async getSongs({ title, performer }) {
+    const queryValue = {
+      text:
+      `SELECT 
+        id, title, performer 
+        FROM songs s
+        WHERE 
+          s.title ilike $1 AND 
+          s.performer ilike $2
+        `,
+      values: [
+        title === undefined ? '%%' : `%${title}%`,
+        performer === undefined ? '%%' : `%${performer}%`,
+      ],
+    };
+    const result = await this._db.query(queryValue);
 
     return result.rows.map(songResponse);
   }

@@ -22,7 +22,7 @@ exports.up = (pgm) => {
         genre: { type: 'varchar(100)', notNull: true },
         performer: { type: 'varchar(100)', notNull: true },
         duration: { type: 'integer', notNull: false },
-        albumid: { type: 'varchar(16)', notNull: false, references: '"albums"' },
+        albumid: { type: 'varchar(16)', notNull: false, references: '"albums"',onDelete: 'cascade' },
     });
 };
 
