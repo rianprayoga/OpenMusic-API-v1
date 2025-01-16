@@ -58,11 +58,11 @@ class SongsService {
       values: [getId(id)],
     });
 
-    if (result.rows.length === 0) {
+    if (!result.rowCount) {
       throw new NotFoundError(`Song with id ${id} not found.`);
     }
 
-    return result.rows.map(songExtendedResponse)[0];
+    return songExtendedResponse(result.rows[0]);
   }
 
   async updateSong(id, {
