@@ -6,6 +6,7 @@ const {
   PostUserBodySchema,
   RefreshTokebBodySchema,
 } = require('./authentications/schema');
+const { PostPlaylistSchema, SongIdSchema } = require('./playlist/schema');
 
 const Validator = {
   validateSongBody: (payload) => {
@@ -34,6 +35,18 @@ const Validator = {
   },
   validateAuthBody: (payload) => {
     const validationResult = AuthBodySchema.validate(payload);
+    if (validationResult.error) {
+      throw new InvariantError(validationResult.error.message);
+    }
+  },
+  validatePlaylistBody: (payload) => {
+    const validationResult = PostPlaylistSchema.validate(payload);
+    if (validationResult.error) {
+      throw new InvariantError(validationResult.error.message);
+    }
+  },
+  validateSongIdBody: (payload) => {
+    const validationResult = SongIdSchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }

@@ -107,6 +107,17 @@ class SongsService {
       }
     }
   }
+
+  async validateSongExist(id) {
+    const result = await this._db.query({
+      text: 'SELECT id FROM songs s WHERE s.id = $1',
+      values: [getId(id)],
+    });
+
+    if (result.rows.length === 0) {
+      throw new NotFoundError(`Song with id ${id} not found.`);
+    }
+  }
 }
 
 module.exports = SongsService;

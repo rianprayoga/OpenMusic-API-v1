@@ -22,6 +22,12 @@ const generateUserId = (id) => {
   return `user-${id}`;
 };
 
+const generatePlaylistId = (id) => {
+  if (id === undefined || id === null) return undefined;
+
+  return `user-${id}`;
+};
+
 module.exports = {
-  generateSongId, generateAlbumdId, getId, generateUserId,
+  generateSongId, generateAlbumdId, getId, generateUserId, generatePlaylistId,
 };

@@ -18,7 +18,10 @@
                 "_validator",
                 "_userService",
                 "_authService",
-                "_tokenManager"] }
+                "_tokenManager",
+                "_playlistService",
+                "_songService"
+                ] }
         ],
         "camelcase": "off"
     }

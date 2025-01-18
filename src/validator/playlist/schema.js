@@ -5,18 +5,12 @@ const PostPlaylistSchema = Joi.object({
     .not(''),
 });
 
-const PostAddSongToListSchema = Joi.object({
-  songId: Joi.string().required().min(16).max(16)
-    .not(''),
-});
-
-const DeleteRemoveSongFromListSchema = Joi.object({
+const SongIdSchema = Joi.object({
   songId: Joi.string().required().min(16).max(16)
     .not(''),
 });
 
 module.export = {
   PostPlaylistSchema,
-  PostAddSongToListSchema,
-  DeleteRemoveSongFromListSchema,
+  SongIdSchema,
 };

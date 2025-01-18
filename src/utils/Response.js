@@ -1,4 +1,4 @@
-const { generateAlbumdId, generateSongId } = require('./Identifier');
+const { generateAlbumdId, generateSongId, generatePlaylistId } = require('./Identifier');
 
 const albumResponse = ({
   id, name, year, songs,
@@ -27,4 +27,12 @@ const songExtendedResponse = ({
   albumId: generateAlbumdId(albumId),
 });
 
-module.exports = { albumResponse, songResponse, songExtendedResponse };
+const playlistResponse = ({ id, name, username }) => ({
+  id: generatePlaylistId(id),
+  name,
+  username,
+});
+
+module.exports = {
+  albumResponse, songResponse, songExtendedResponse, playlistResponse,
+};

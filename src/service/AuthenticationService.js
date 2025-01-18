@@ -1,6 +1,6 @@
 const InvariantError = require('../exceptions/InvariantError');
 
-class AuthService {
+class AuthenticationServie {
   constructor(db) {
     this._db = db;
   }
@@ -37,4 +37,4 @@ class AuthService {
   }
 }
 
-module.exports = AuthService;
+module.exports = AuthenticationServie;
