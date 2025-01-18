@@ -16,4 +16,12 @@ const getId = (id) => {
   return id.slice(-16);
 };
 
-module.exports = { generateSongId, generateAlbumdId, getId };
+const generateUserId = (id) => {
+  if (id === undefined || id === null) return undefined;
+
+  return `user-${id}`;
+};
+
+module.exports = {
+  generateSongId, generateAlbumdId, getId, generateUserId,
+};
