@@ -5,7 +5,7 @@ class UserHandler {
   }
 
   async postUserHandler(request, h) {
-    this._validator.validatePostAuthenticationPayload(request.payload);
+    this._validator.validatePostUserPayload(request.payload);
 
     const {
       username, password, fullname,

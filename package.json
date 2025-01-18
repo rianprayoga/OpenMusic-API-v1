@@ -16,6 +16,7 @@
     "eslint-plugin-import": "^2.29.0"
   },
   "dependencies": {
+    "@hapi/jwt": "^3.2.0",
     "@hapi/hapi": "^21.3.12",
     "dotenv": "^16.4.7",
     "joi": "^17.13.3",

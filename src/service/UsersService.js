@@ -48,7 +48,7 @@ class UsersService {
 
     const result = await this._db.query(query);
     if (!result.rows.length) {
-      throw new AuthenticationError('Mismatch credential.');
+      throw new AuthenticationError(`User ${username} not found.`);
     }
 
     const { id, password: hashedPassword } = result.rows[0];

@@ -1,21 +1,27 @@
 const Joi = require('joi');
 
-const PostAuthBodySchema = Joi.object({
-  username: Joi.string().required().min(5).max(20),
-  password: Joi.string().required().min(5).max(20),
-  fullname: Joi.string().required().min(5).max(20),
+const PostUserBodySchema = Joi.object({
+  username: Joi.string().required().min(3).max(20)
+    .not(''),
+  password: Joi.string().required().min(3).max(20)
+    .not(''),
+  fullname: Joi.string().required().min(3).max(20)
+    .not(''),
 });
 
-const PutAuthBodySchema = Joi.object({
-  refreshToken: Joi.string().required().not(''),
+const AuthBodySchema = Joi.object({
+  username: Joi.string().required().min(3).max(20)
+    .not(''),
+  password: Joi.string().required().min(3).max(20)
+    .not(''),
 });
 
-const DeleteAuthBodySchema = Joi.object({
+const RefreshTokebBodySchema = Joi.object({
   refreshToken: Joi.string().required().not(''),
 });
 
 module.exports = {
-  PostAuthBodySchema,
-  PutAuthBodySchema,
-  DeleteAuthBodySchema,
+  AuthBodySchema,
+  PostUserBodySchema,
+  RefreshTokebBodySchema,
 };

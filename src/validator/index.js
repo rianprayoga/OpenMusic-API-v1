@@ -2,9 +2,9 @@ const InvariantError = require('../exceptions/InvariantError');
 const { SongBodySchema } = require('./song/schema');
 const { AlbumBodySchema } = require('./album/schema');
 const {
-  PostAuthBodySchema,
-  PutAuthBodySchema,
-  DeleteAuthBodySchema,
+  AuthBodySchema,
+  PostUserBodySchema,
+  RefreshTokebBodySchema,
 } = require('./authentications/schema');
 
 const Validator = {
@@ -20,20 +20,20 @@ const Validator = {
       throw new InvariantError(validationResult.error.message);
     }
   },
-  validatePostAuthenticationPayload: (payload) => {
-    const validationResult = PostAuthBodySchema.validate(payload);
+  validatePostUserPayload: (payload) => {
+    const validationResult = PostUserBodySchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }
   },
-  validatePutAuthenticationPayload: (payload) => {
-    const validationResult = PutAuthBodySchema.validate(payload);
+  validateRefreshTokenBody: (payload) => {
+    const validationResult = RefreshTokebBodySchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }
   },
-  validateDeleteAuthenticationPayload: (payload) => {
-    const validationResult = DeleteAuthBodySchema.validate(payload);
+  validateAuthBody: (payload) => {
+    const validationResult = AuthBodySchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }
