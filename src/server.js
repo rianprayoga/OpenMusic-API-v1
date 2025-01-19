@@ -28,6 +28,9 @@ const AuthorizationService = require('./service/AuthorizationService');
 const audit = require('./api/audit');
 const AuditService = require('./service/AuditService');
 
+const collab = require('./api/collaborations');
+const CollabsService = require('./service/CollabsService');
+
 const init = async () => {
   const albumService = new AlbumsService(db);
   const songService = new SongsService(db);
@@ -36,6 +39,7 @@ const init = async () => {
   const playlistService = new PlaylistService(db);
   const authorizationService = new AuthorizationService(db);
   const auditService = new AuditService(db);
+  const collaborationService = new CollabsService(db);
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -73,6 +77,16 @@ const init = async () => {
   });
 
   await server.register([
+    {
+      plugin: collab,
+      options: {
+        collabsService: collaborationService,
+        playlistService,
+        authorizationService,
+        userService,
+        validator: Validator,
+      },
+    },
     {
       plugin: audit,
       options: {

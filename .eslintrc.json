@@ -22,7 +22,8 @@
                 "_playlistService",
                 "_songService",
                 "_authorizationService",
-                "_auditService"
+                "_auditService",
+                "_collabsService"
                 ] }
         ],
         "camelcase": "off"

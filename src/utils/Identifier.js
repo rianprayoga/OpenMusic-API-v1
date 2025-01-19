@@ -28,6 +28,17 @@ const generatePlaylistId = (id) => {
   return `user-${id}`;
 };
 
+const collabId = (id) => {
+  if (id === undefined || id === null) return undefined;
+
+  return `colab-${id}`;
+};
+
 module.exports = {
-  generateSongId, generateAlbumdId, getId, generateUserId, generatePlaylistId,
+  generateSongId,
+  generateAlbumdId,
+  getId,
+  generateUserId,
+  generatePlaylistId,
+  collabId,
 };

@@ -7,6 +7,7 @@ const {
   RefreshTokebBodySchema,
 } = require('./authentications/schema');
 const { PostPlaylistSchema, SongIdSchema } = require('./playlist/schema');
+const CollabSchema = require('./collaborations/schema');
 
 const Validator = {
   validateSongBody: (payload) => {
@@ -47,6 +48,12 @@ const Validator = {
   },
   validateSongIdBody: (payload) => {
     const validationResult = SongIdSchema.validate(payload);
+    if (validationResult.error) {
+      throw new InvariantError(validationResult.error.message);
+    }
+  },
+  validateCollabBody: (payload) => {
+    const validationResult = CollabSchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }

@@ -2,7 +2,8 @@ const { nanoid } = require('nanoid');
 const bcrypt = require('bcrypt');
 const InvariantError = require('../exceptions/InvariantError');
 const AuthenticationError = require('../exceptions/AuthenticationError');
-const { generateUserId } = require('../utils/Identifier');
+const { generateUserId, getId } = require('../utils/Identifier');
+const NotFoundError = require('../exceptions/NotFoundError');
 
 class UsersService {
   constructor(db) {
@@ -59,6 +60,17 @@ class UsersService {
       throw new AuthenticationError('Mismatch credential.');
     }
     return id;
+  }
+
+  async validateUserExist(userId) {
+    const result = await this._db.query({
+      text: 'SELECT username FROM users u WHERE u.id = $1',
+      values: [getId(userId)],
+    });
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError(`User ${userId} not found.`);
+    }
   }
 }
 
