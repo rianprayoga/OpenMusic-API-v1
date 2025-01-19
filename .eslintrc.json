@@ -21,7 +21,8 @@
                 "_tokenManager",
                 "_playlistService",
                 "_songService",
-                "_authorizationService"
+                "_authorizationService",
+                "_auditService"
                 ] }
         ],
         "camelcase": "off"

@@ -22,7 +22,11 @@ const AuthenticationService = require('./service/AuthenticationService');
 
 const playlist = require('./api/playlist');
 const PlaylistService = require('./service/PlaylistService');
+
 const AuthorizationService = require('./service/AuthorizationService');
+
+const audit = require('./api/audit');
+const AuditService = require('./service/AuditService');
 
 const init = async () => {
   const albumService = new AlbumsService(db);
@@ -31,6 +35,7 @@ const init = async () => {
   const authService = new AuthenticationService(db);
   const playlistService = new PlaylistService(db);
   const authorizationService = new AuthorizationService(db);
+  const auditService = new AuditService(db);
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -69,6 +74,14 @@ const init = async () => {
 
   await server.register([
     {
+      plugin: audit,
+      options: {
+        playlistService,
+        authorizationService,
+        service: auditService,
+      },
+    },
+    {
       plugin: albums,
       options: {
         service: albumService,
@@ -104,6 +117,7 @@ const init = async () => {
         playlistService,
         songService,
         authorService: authorizationService,
+        auditService,
         validator: Validator,
       },
     },
