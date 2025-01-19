@@ -22,6 +22,7 @@ const AuthenticationService = require('./service/AuthenticationService');
 
 const playlist = require('./api/playlist');
 const PlaylistService = require('./service/PlaylistService');
+const AuthorizationService = require('./service/AuthorizationService');
 
 const init = async () => {
   const albumService = new AlbumsService(db);
@@ -29,6 +30,7 @@ const init = async () => {
   const userService = new UsersService(db);
   const authService = new AuthenticationService(db);
   const playlistService = new PlaylistService(db);
+  const authorizationService = new AuthorizationService(db);
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -101,6 +103,7 @@ const init = async () => {
       options: {
         playlistService,
         songService,
+        authorService: authorizationService,
         validator: Validator,
       },
     },
@@ -115,13 +118,6 @@ const init = async () => {
         message: response.message,
       });
       newResponse.code(response.statusCode);
-      return newResponse;
-    } if (response instanceof Error) {
-      const newResponse = h.response({
-        status: 'error',
-        message: 'Internal server error',
-      });
-      newResponse.code(500);
       return newResponse;
     }
 

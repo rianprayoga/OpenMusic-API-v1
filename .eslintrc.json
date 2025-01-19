@@ -20,7 +20,8 @@
                 "_authService",
                 "_tokenManager",
                 "_playlistService",
-                "_songService"
+                "_songService",
+                "_authorizationService"
                 ] }
         ],
         "camelcase": "off"

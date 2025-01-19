@@ -27,10 +27,13 @@ const songExtendedResponse = ({
   albumId: generateAlbumdId(albumId),
 });
 
-const playlistResponse = ({ id, name, username }) => ({
+const playlistResponse = ({
+  id, name, username, songs,
+}) => ({
   id: generatePlaylistId(id),
   name,
   username,
+  songs,
 });
 
 module.exports = {

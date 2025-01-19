@@ -37,7 +37,7 @@ class PlaylistService {
                 UNION
                 SELECT 
                     p.id, p.name, p.owner 
-                FROM playlist p WHERE p.owner = $1;
+                FROM playlist p WHERE p.owner = $1
             )
             SELECT 
                 up.id, up.name, u.username 
@@ -50,11 +50,9 @@ class PlaylistService {
   }
 
   async deletePlaylist(id) {
-    const playlistId = getId(id);
-
     const result = await this._db.query({
-      text: 'DELETE playlist WHERE id = $1 RETURNING id',
-      values: [playlistId],
+      text: 'DELETE FROM playlist WHERE id = $1 RETURNING id',
+      values: [getId(id)],
     });
 
     if (!result.rows.length) {
@@ -63,7 +61,7 @@ class PlaylistService {
   }
 
   async addSongToPlaylist({ playlistId, songId }) {
-    if (this.isSongInPlaylist({ playlistId, songId })) {
+    if (await this.isSongInPlaylist({ playlistId, songId })) {
       throw new InvariantError('Song already in playlist.');
     }
 
@@ -79,31 +77,32 @@ class PlaylistService {
     const result = await this._db.query({
       text: `
         select 
-          p.id, p."name", p."owner", ps."songId", s.title, s.performer 
+          p.id as pid, p."name", u."username", ps."songId" as sid, s.title, s.performer 
         from playlist p 
           left join playlist_songs ps ON p.id = ps."playlistId" 
           left join songs s on ps."songId" = s.id
+          left join users u on u.id = p."owner"
         where ps."playlistId" = $1;
       `,
       values: [getId(id)],
     });
 
-    const info = playlistResponse(result.rows[0]);
-    const songs = result.rows[0].songId != null ? result.rows.map(songResponse) : [];
-
-    return {
-      playlist: info,
-      songs,
-    };
+    const songs = result.rows[0].sid != null ? result.rows.map(
+      ({ sid, title, performer }) => songResponse({ id: sid, title, performer }),
+    ) : [];
+    const { pid, name, username } = result.rows[0];
+    return playlistResponse({
+      id: pid, name, username, songs,
+    });
   }
 
   async deleteSongsFromPlaylist({ playlistId, songId }) {
-    if (this.isSongInPlaylist({ playlistId, songId })) {
+    if (await this.isSongInPlaylist({ playlistId, songId }) === false) {
       throw new InvariantError('Song not in playlist.');
     }
 
     await this._db.query({
-      text: 'DELETE FROM playlist_songs ps WHERE ps.playlistId = $1 AND ps.songId = $2 ',
+      text: 'DELETE FROM playlist_songs ps WHERE ps."playlistId" = $1 AND ps."songId" = $2 ',
       values: [getId(playlistId), getId(songId)],
     });
   }
@@ -123,7 +122,7 @@ class PlaylistService {
     const result = await this._db.query({
       text: `
         SELECT "songId" 
-        FROM playlist_songs("playlistId", "songId") VALUES($1, $2)`,
+        FROM playlist_songs WHERE "playlistId" = $1 AND "songId" = $2`,
       values: [getId(playlistId), getId(songId)],
     });
 
