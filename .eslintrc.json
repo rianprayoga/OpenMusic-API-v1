@@ -23,7 +23,8 @@
                 "_songService",
                 "_authorizationService",
                 "_auditService",
-                "_collabsService"
+                "_collabsService",
+                "_producerServices"
                 ] }
         ],
         "camelcase": "off"

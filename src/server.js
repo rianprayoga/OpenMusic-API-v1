@@ -31,6 +31,9 @@ const AuditService = require('./service/AuditService');
 const collab = require('./api/collaborations');
 const CollabsService = require('./service/CollabsService');
 
+const exportPlugin = require('./api/exports');
+const ProducerService = require('./service/rabitmq/ProducerService');
+
 const init = async () => {
   const albumService = new AlbumsService(db);
   const songService = new SongsService(db);
@@ -77,6 +80,15 @@ const init = async () => {
   });
 
   await server.register([
+    {
+      plugin: exportPlugin,
+      options: {
+        playlistService,
+        authorizationService,
+        producerServices: ProducerService,
+        validator: Validator,
+      },
+    },
     {
       plugin: collab,
       options: {
