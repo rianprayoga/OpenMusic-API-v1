@@ -25,7 +25,7 @@ const generateUserId = (id) => {
 const generatePlaylistId = (id) => {
   if (id === undefined || id === null) return undefined;
 
-  return `user-${id}`;
+  return `playlist-${id}`;
 };
 
 const collabId = (id) => {
