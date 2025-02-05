@@ -28,7 +28,10 @@
                 "_folder",
                 "_storageService",
                 "_S3",
-                "_data"
+                "_data",
+                "_client",
+                "_cacheService",
+                "_likeService"
                 ] }
         ],
         "camelcase": "off"

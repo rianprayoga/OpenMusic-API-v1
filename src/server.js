@@ -9,6 +9,8 @@ const db = require('./db');
 
 const albums = require('./api/albums');
 const AlbumsService = require('./service/AlbumsService');
+const LikeService = require('./service/LikeService');
+const CacheService = require('./service/redis/CacheService');
 
 const SongsService = require('./service/SongsService');
 const songs = require('./api/songs');
@@ -46,6 +48,8 @@ const init = async () => {
   const auditService = new AuditService(db);
   const collaborationService = new CollabsService(db);
   const storageService = new StorageService();
+  const likeService = new LikeService(db);
+  const cacheService = new CacheService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -114,6 +118,8 @@ const init = async () => {
       options: {
         service: albumService,
         storageService,
+        cacheService,
+        likeService,
         validator: Validator,
       },
     },

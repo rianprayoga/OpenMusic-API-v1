@@ -26,6 +26,21 @@ class AlbumsService {
     return albumdId(result.rows[0].id);
   }
 
+  async validateAlbumExist(id) {
+    const result = await this._db.query(
+      {
+        text:
+        `SELECT a.id as aid
+          FROM albums a WHERE a.id = $1`,
+        values: [getId(id)],
+      },
+    );
+
+    if (result.rows.length === 0) {
+      throw new NotFoundError(`Album with id ${id} not found.`);
+    }
+  }
+
   async getAlbumById(id) {
     const result = await this._db.query(
       {
