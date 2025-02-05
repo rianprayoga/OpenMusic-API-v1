@@ -31,7 +31,7 @@ class AlbumsService {
       {
         text:
         `SELECT 
-          a.id as aid, a.name, a.year, s.id as sid, s.title, s.performer
+          a.id as aid, a.name, a.year, a.cover, s.id as sid, s.title, s.performer
         FROM albums a LEFT JOIN songs s ON a.id = s.albumId WHERE a.id = $1`,
         values: [getId(id)],
       },
@@ -45,9 +45,11 @@ class AlbumsService {
       .rows
       .map(({ sid, title, performer }) => songResponse({ id: sid, title, performer }));
 
-    const { aid, name, year } = result.rows[0];
+    const {
+      aid, name, year, cover,
+    } = result.rows[0];
     return albumResponse({
-      id: aid, name, year, songs: tmpSongs[0].id === undefined ? [] : tmpSongs,
+      id: aid, name, year, songs: tmpSongs[0].id === undefined ? [] : tmpSongs, coverUrl: cover,
     });
   }
 
@@ -74,6 +76,19 @@ class AlbumsService {
 
     if (!result.rows.length) {
       throw new NotFoundError(`Failed to update album. Album with Id ${id} not found.`);
+    }
+  }
+
+  async addCover({ id, location }) {
+    const queryValue = {
+      text: 'UPDATE albums SET cover = $1 WHERE id = $2 RETURNING id',
+      values: [location, getId(id)],
+    };
+
+    const result = await this._db.query(queryValue);
+
+    if (!result.rowCount) {
+      throw new NotFoundError(`Failed to update cover. Album with Id ${id} not found.`);
     }
   }
 }

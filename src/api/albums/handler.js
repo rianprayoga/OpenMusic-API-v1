@@ -1,6 +1,7 @@
 class AlbumHandler {
-  constructor(service, validator) {
+  constructor(service, storageService, validator) {
     this._service = service;
+    this._storageService = storageService;
     this._validator = validator;
   }
 
@@ -53,6 +54,23 @@ class AlbumHandler {
       status: 'success',
       message: `Album wiht id ${id} deleted.`,
     };
+  }
+
+  async postAlbumCoverHandler(request, h) {
+    const { cover } = request.payload;
+    const { id } = request.params;
+    this._validator.validateImageBody(cover.hapi.headers);
+
+    const fileLocation = await this._storageService.writeFile(cover, cover.hapi);
+
+    await this._service.addCover({ id, location: fileLocation });
+
+    const response = h.response({
+      status: 'success',
+      message: 'Cover uploaded.',
+    });
+    response.code(201);
+    return response;
   }
 }
 

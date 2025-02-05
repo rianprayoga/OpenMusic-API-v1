@@ -1,6 +1,6 @@
 const InvariantError = require('../exceptions/InvariantError');
 const { SongBodySchema } = require('./song/schema');
-const { AlbumBodySchema } = require('./album/schema');
+const { AlbumBodySchema, ImageHeadersSchema } = require('./album/schema');
 const {
   AuthBodySchema,
   PostUserBodySchema,
@@ -61,6 +61,12 @@ const Validator = {
   },
   validateExportBody: (payload) => {
     const validationResult = ExportSchema.validate(payload);
+    if (validationResult.error) {
+      throw new InvariantError(validationResult.error.message);
+    }
+  },
+  validateImageBody: (payload) => {
+    const validationResult = ImageHeadersSchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }

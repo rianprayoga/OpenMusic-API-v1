@@ -34,6 +34,8 @@ const CollabsService = require('./service/CollabsService');
 const exportPlugin = require('./api/exports');
 const ProducerService = require('./service/rabitmq/ProducerService');
 
+const StorageService = require('./service/s3/StorageService');
+
 const init = async () => {
   const albumService = new AlbumsService(db);
   const songService = new SongsService(db);
@@ -43,6 +45,7 @@ const init = async () => {
   const authorizationService = new AuthorizationService(db);
   const auditService = new AuditService(db);
   const collaborationService = new CollabsService(db);
+  const storageService = new StorageService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -110,6 +113,7 @@ const init = async () => {
       plugin: albums,
       options: {
         service: albumService,
+        storageService,
         validator: Validator,
       },
     },

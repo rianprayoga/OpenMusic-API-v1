@@ -24,7 +24,11 @@
                 "_authorizationService",
                 "_auditService",
                 "_collabsService",
-                "_producerServices"
+                "_producerServices",
+                "_folder",
+                "_storageService",
+                "_S3",
+                "_data"
                 ] }
         ],
         "camelcase": "off"
